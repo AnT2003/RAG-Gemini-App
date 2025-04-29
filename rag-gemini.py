@@ -51,13 +51,13 @@ def load_uploaded_documents(uploaded_files):
     return documents
 
 def create_vectorstore(docs, db_path=DB_FOLDER):
-    embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+    embedding_model = HuggingFaceEmbeddings(model_name="Snowflake/snowflake-arctic-embed-l-v2.0")
     vectordb = FAISS.from_documents(docs, embedding_model)
     vectordb.save_local(db_path)
     return vectordb
 
 def load_vectorstore(db_path=DB_FOLDER):
-    embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+    embedding_model = HuggingFaceEmbeddings(model_name="Snowflake/snowflake-arctic-embed-l-v2.0")
     faiss_index_path = os.path.join(db_path, "index.faiss")
     if not os.path.exists(faiss_index_path):
         st.warning(f"Không tìm thấy chỉ mục FAISS tại {faiss_index_path}. Tạo lại chỉ mục từ tài liệu...")
@@ -87,7 +87,7 @@ def get_fallback_answer(llm, query):
 
 def delete_documents_from_vectorstore(sources_to_delete, db_path=DB_FOLDER):
     vectordb = load_vectorstore(db_path)
-    embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+    embedding_model = HuggingFaceEmbeddings(model_name="Snowflake/snowflake-arctic-embed-l-v2.0")
 
     all_docs = vectordb.similarity_search("dummy query", k=1000)
     remaining_docs = [doc for doc in all_docs if doc.metadata.get("source") not in sources_to_delete]

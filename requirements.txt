@@ -12,3 +12,4 @@ pytorch-lightning
 unstructured
 pdfminer.six
 sentence-transformers
+streamlit==1.37.0
